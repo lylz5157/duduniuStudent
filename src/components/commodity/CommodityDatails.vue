@@ -121,7 +121,11 @@
         })
       //微信分享
       // this.$axios.get('/api/remote/getWxShareParam?targetUrl=' + 'https:buy.51duduniu.com')
-      this.$axios.get('/remote/getWxShareParam?targetUrl=' + window.location.href)
+      const Qs = require('qs');
+      this.$axios.post('/remote/getWxShareParam',JSON.stringify({
+        targetUrl:window.location.href
+      }))
+      // this.$axios.get('/remote/getWxShareParam?targetUrl=' + )
         .then(res => {
           this.wxlink = window.location.href
           wx.config({
@@ -204,7 +208,7 @@
         this.$message.error('复制失败！');
       },
       ToIndex() {
-        this.$router.go(-1);
+        this.$router.push({path:'/'})
       }
     }
   }
@@ -344,7 +348,7 @@
     position: fixed;
     left: 0;
     bottom: 0;
-    line-height: 44px;
+    line-height: 50px;
     width: 100%;
     text-align: center;
     color: #ffffff;

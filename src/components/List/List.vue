@@ -18,7 +18,7 @@
       <!--      导航-->
       <div class="NavList">
         <el-row>
-          <el-col :span="21">
+          <el-col :span="24">
             <swiper :options="swiperOption" ref="mySwiper">
               <swiper-slide
                 v-for="(v,k) in nav" :key="k" :did="v.did">
@@ -72,8 +72,6 @@
                     <span class="Postage">包邮</span>
                   </div>
                   <div class="sales_num">
-
-
                     <span>月销{{v.sales_num}}万</span>
                   </div>
                 </el-col>
@@ -261,6 +259,7 @@
       text-align: center;
       color: #ffffff;
       font-size: 16px;
+      width: 16.66%;
       span {
         padding-bottom: 5px;
       }
@@ -327,13 +326,13 @@
       .d_title {
         color: #999999;
         line-height: 180%;
-        /*overflow: hidden;*/
-        /*white-space: nowrap;*/
-        /*text-overflow: ellipsis;*/
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
         overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        /*display: -webkit-box;*/
+        /*-webkit-box-orient: vertical;*/
+        /*-webkit-line-clamp: 2;*/
+        /*overflow: hidden;*/
         font-size: 12px;
       }
 
