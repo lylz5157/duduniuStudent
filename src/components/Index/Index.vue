@@ -10,7 +10,7 @@
 
       <NavList :List="nav"></NavList>
       <!--      轮播-->
-      <Banner :bannerList="banner"></Banner>
+<!--      <Banner :bannerList="banner"></Banner>-->
       <!--      九宫格-->
 <!--      <el-row class="group">-->
 <!--        <router-link :to="{name:'RushToBuy'}">-->
@@ -63,7 +63,7 @@
       <div class="GoodStuffRecommendation">
         <el-row v-for="(v,k) in GoodStuffRecommendation" :key="k">
           <router-link :to="{name:'CommodityDatails',query:{id:v.goodsID}}">
-            <el-col :span="8"><img :src="v.pic" alt=""></el-col>
+            <el-col :span="8"><img v-lazy="v.pic" alt=""></el-col>
             <el-col :span="16">
               <h4 class="title"><span>天猫</span>{{v.d_title}}</h4>
               <p class="d_title">{{v.introduce}}</p>
@@ -185,7 +185,7 @@
 
     .banner {
       overflow: hidden;
-      padding: 15px;
+      padding: 13px;
 
       img {
       }
@@ -245,6 +245,9 @@
         .el-col-8 {
           img {
             width: 100%;
+            -webkit-border-radius: 7px;
+            -moz-border-radius: 7px;
+            border-radius: 7px;
           }
         }
 
@@ -259,6 +262,7 @@
             color: #333333;
             vertical-align:middle;
             padding: 2px 5px;
+            font-size: 14px;
             span {
               background: #FF0000;
               color: #ffffff;
@@ -282,6 +286,7 @@
           overflow-y: hidden; /* 超出内容不可见 */
           white-space: nowrap; /* 不换行 */
           text-overflow: ellipsis;
+          font-size: 12px;
         }
           .price {
             margin-top: 5%;

@@ -1,6 +1,6 @@
 <template>
     <div>
-      <router-link :to="{name:'Index'}" class="ReturnHome">
+      <router-link :to="{name:'List'}" class="ReturnHome">
         <img src="https://img.51dodoniu.com/pic_15.png" alt="" >
       </router-link>
     </div>

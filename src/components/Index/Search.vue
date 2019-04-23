@@ -86,7 +86,7 @@
       }
     },
     created() {
-      // this.loadFrist();
+      this.loadFrist0();
     },
     mounted() {
       // 父控件要加上高度，否则会出现上拉不动的情况
@@ -124,9 +124,12 @@
       },
       // 下来刷新加载
       Search() {
+
         if (this.activeClass == 1) {
+          this.HalfPricePerDay = []
           this.loadMore1();
         }else {
+          this.HalfPricePerDay = []
           this.loadMore0();
         }
       },

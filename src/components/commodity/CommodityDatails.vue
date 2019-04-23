@@ -71,7 +71,7 @@
       </div>
       <el-row class="Fotter">
         <el-col :span="7">
-          <span @click="ToIndex">首页</span>
+          <span @click="ToIndex">返回</span>
         </el-col>
         <el-col :span="17" v-show="isCopy">
         <span
@@ -196,18 +196,15 @@
     methods: {
       onCopy(e) {
         this.isCopy = false
-        console.log(this.isCopy)
-        this.$message({
-          message: '复制成功，快去淘宝粘贴吧！',
-          type: 'success'
-        });
+        alert('已自动复制口令'+this.CommodityDatails.tb_token+'，请打开手机淘宝购买')
+
       },
       // 复制失败
       onError(e) {
         this.$message.error('复制失败！');
       },
       ToIndex() {
-        this.$router.push({path: '/'})
+        this.$router.go(-1);
       }
     }
   }

@@ -3,7 +3,7 @@
     <swiper :options="swiperOption">
       <swiper-slide v-for="(v,k) in SwiperList" :key="k">
         <router-link :to="{name:'CommodityDatails',query:{id:v.goodsID}}">
-        <img :src="v.pic"/>
+        <img v-lazy="v.pic"/>
         <h4>{{v.d_title}}</h4>
         <p><small>￥</small>9.9 <span>到手</span></p>
         <del>19.9</del>
@@ -46,7 +46,7 @@
     border-bottom: 4px solid #f4f4f4;
     padding: 0 12px 12px 12px;
       h4 {
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 400;
         overflow: hidden;
         text-overflow:ellipsis;
@@ -55,15 +55,16 @@
       }
     img {
       width: 100%;
+      border-radius: 7px;
     }
     p {
-      font-size: 14px;
+      font-size: 12px;
       color: #ff0000;
       small {
         font-size: 10px;
       }
       span {
-        font-size: 10px;
+        font-size: 12px;
       }
     }
     del {

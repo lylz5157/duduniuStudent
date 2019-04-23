@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.7.2",
+    "fastclick": "^1.0.6",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "mint-ui": "^2.2.13",
@@ -22,6 +23,7 @@
     "vue-lazyload": "^1.2.6",
     "vue-router": "^3.0.1",
     "vue-wechat-title": "^2.0.5",
+    "vue2-toast": "^2.0.2",
     "weixin-js-sdk": "^1.4.0-test"
   },
   "devDependencies": {

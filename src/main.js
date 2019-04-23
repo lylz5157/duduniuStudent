@@ -45,7 +45,7 @@ import VueLazyload from 'vue-lazyload'
 Vue.use(VueLazyload, {
   preLoad: 1.3,//距离当前dom距离页面底部的高度
   error: '',
-  loading: '',
+  loading: 'https://img.51dodoniu.com/Lazyload.png',
   attempt: 1 // 图片加载失败，最多重试的次数
 });
 
@@ -70,6 +70,11 @@ Vue.use(qs)
 //复制粘贴
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
+
+//解决点击延迟
+import fastclick from 'fastclick'
+// Vue.use(fastclick)
+
 
 new Vue({
   el: '#app',

@@ -5,7 +5,9 @@
 </template>
 <script>
   export default {
-    name: 'App'
+    name: 'App',
+    mounted () {
+    }
   }
 </script>
 
@@ -27,16 +29,17 @@
     padding: 0;
     border: 0;
     font-size: 100%;
-    /*font-weight: normal;*/
-    /*vertical-align: baseline;*/
-    /*cursor: pointer;*/
+    font-weight: normal;
+    vertical-align: baseline;
+    cursor: pointer;
   }
-  #app,html,body {
+  html,body {
     font-family: PingFangSC-Regular, sans-serif;
     font-size: 13px;
     background: #ffffff;
     max-width: 750px;
     margin: 0 auto;
+    height: 100%;
   }
   .mint-loadmore-text {
     text-align: center;

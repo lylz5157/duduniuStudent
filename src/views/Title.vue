@@ -25,7 +25,7 @@
       padding: 0 12px;
       line-height: 40px;
       .el-col-24 {
-        font-size: 15px;
+        font-size: 16px;
         color: #333333;
         font-weight: 400;
         vertical-align: middle;
@@ -42,7 +42,7 @@
         }
         .ico {
           width: 6%;
-          margin-right: 10px;
+          margin-right: 5px;
           vertical-align:middle
         }
       }

@@ -77,9 +77,10 @@
     .swiper-slide {
       text-align: center;
       color: #ffffff;
-
+      font-size: 15px !important;
       span {
         padding-bottom: 5px;
+
       }
 
       a {
