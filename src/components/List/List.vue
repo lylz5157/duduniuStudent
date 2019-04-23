@@ -104,7 +104,7 @@
           slidesPerView: 6,
         },
         active: false,
-        status: '',
+        status: 6,
         HalfPricePerDay: [],
         //可以进行上拉
         allLoaded: false,
@@ -134,7 +134,7 @@
       // 下来刷新加载
       loadFrist() {
         this.courrentPage = 1
-        this.$axios.get('/operate/page?pageNo=' + this.courrentPage + '&pageSize=10&item_id=' + this.status + '')
+        this.$axios.get('/operate/page?pageNo=' + this.courrentPage + '&pageSize=10&item_id=' + this.status)
           .then(res => {
             this.courrentPage == 1;
             this.allLoaded = false; // 可以进行上拉
@@ -149,7 +149,7 @@
       // 加载更多
       loadMore() {
         this.courrentPage++;
-        this.$axios.get('/operate/page?pageNo=' + this.courrentPage + '&pageSize=10&item_id=' + this.status + '')
+        this.$axios.get('/operate/page?pageNo=' + this.courrentPage + '&pageSize=10&item_id=' + this.status)
           .then(res => {
             // concat数组的追加
             this.HalfPricePerDay = this.HalfPricePerDay.concat(res.data.data.datalist);
@@ -206,6 +206,7 @@
       background-image: url("https://img.51dodoniu.com/pic_14.png");
       background-size: 100% 100%;
       background-repeat: no-repeat;
+      padding-bottom: 5px;
     }
 
 
