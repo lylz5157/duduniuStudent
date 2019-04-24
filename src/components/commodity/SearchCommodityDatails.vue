@@ -93,9 +93,8 @@
 </template>
 <script>
   import wx from 'weixin-js-sdk'
-
   export default {
-    name: "CommodityDatails",
+    name: "SearchCommodityDatails",
     data() {
       return {
         CommodityDatails: [],
@@ -109,7 +108,7 @@
       }
     },
     mounted() {
-      this.$axios.get('/operate/goodsdetail/' + this.$route.query.id)
+      this.$axios.get('/goods/detailinfo/' + this.$route.query.id)
         .then(res => {
           this.CommodityDatails = res.data.data
           console.log(this.CommodityDatails)

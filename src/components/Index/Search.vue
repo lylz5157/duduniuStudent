@@ -3,7 +3,7 @@
     <el-row class="Search">
       <el-col :span="2"><img src="https://img.51dodoniu.com/ico_07.png" alt="" class="Return" @click="Return"></el-col>
       <el-col :span="17">
-        <input type="search" @focus="checkSearch" v-model="placeholder">
+        <input type="search" @focus="checkSearch" v-model="placeholder" placeholder="10W+一元起包邮商品任你选">
         <i v-if="IsSearch"><img src="https://img.51dodoniu.com/ico_06.png" alt=""></i>
       </el-col>
       <el-col :span="5"><span @click="Search">搜索</span></el-col>
@@ -12,15 +12,7 @@
       <el-col :span="12" v-for="(v,k) in list" :key="k" :class="activeClass ==k?'active':''"><span @click="IsActive(k)">{{v.title}}</span>
       </el-col>
     </el-row>
-<!--    <el-row>-->
-<!--      <el-col :span="24" class="SearchRecommend" v-show="!HalfPricePerDay.length">-->
-<!--        <h4>推荐搜索</h4>-->
-<!--        <el-col :span="24">-->
-<!--          <span v-for='(v,k) in SearchRecommend' :key="k" @click="Recommend(v,k)">{{v.item}}</span>-->
-<!--        </el-col>-->
-<!--      </el-col>-->
-
-<!--    </el-row>-->
+    <div class="root">
     <div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
       <mt-loadmore :top-method="loadTop"
                    :bottom-method="loadBottom"
@@ -29,7 +21,7 @@
       >
         <div class="SearchList">
           <el-row v-for="(v,k) in HalfPricePerDay" :key="k">
-            <router-link :to="{name:'CommodityDatails',query:{id:v.goodsID}}">
+            <router-link :to="{name:'SearchCommodityDatails',query:{id:v.goodsID}}">
               <el-col :span="8"><img :src="v.pic" alt=""></el-col>
               <el-col :span="16">
                 <h4 class="title">{{v.d_title}}</h4>
@@ -53,7 +45,7 @@
         </div>
       </mt-loadmore>
     </div>
-
+    </div>
   </div>
 </template>
 
@@ -63,7 +55,7 @@
     data() {
       return {
         IsSearch: true,
-        placeholder: '10W+一元起包邮商品任你选',
+        placeholder: '',
         list: [
           {title: '天猫搜索(100w+)',ico:''},
           {title: '优惠推荐(包邮10w+)'},
@@ -86,7 +78,7 @@
       }
     },
     created() {
-      this.loadFrist0();
+      // this.loadFrist0();
     },
     mounted() {
       // 父控件要加上高度，否则会出现上拉不动的情况
@@ -104,6 +96,11 @@
       },
       IsActive(k) {
         this.activeClass = k;
+        if(k==1){
+          this.loadFrist1();
+        }else {
+          this.loadFrist0();
+        }
       },
       //   下拉刷新
       loadTop() {
@@ -225,11 +222,17 @@
 </script>
 
 <style scoped lang="less">
+  .root{
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   .main-body {
     /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
     overflow: scroll;
   }
-
+  .mint-loadmore {
+    /*margin-top: 15%;*/
+  }
   .focus {
     text-indent: 1em;
   }

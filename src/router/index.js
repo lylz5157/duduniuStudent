@@ -4,6 +4,7 @@ Vue.use(Router)
 
 const Index = ()  => import('@/components/Index/Index')  // 首页
 const CommodityDatails = ()  => import('@/components/Commodity/CommodityDatails')  // 商品详情
+const SearchCommodityDatails = ()  => import('@/components/Commodity/SearchCommodityDatails')  // 搜索详情
 const RushToBuy = ()  => import('@/components/RushToBuy/RushToBuy')  // 疯抢排行榜
 const HalfPricePerDay = ()  => import('@/components/HalfPricePerDay/HalfPricePerDay')  // 每日半价
 const Capping = ()  => import('@/components/Capping/Capping')  // 30元封顶
@@ -21,6 +22,7 @@ const router = new Router({
   routes: [
     // { path: '/',name: 'Index', component: Index, meta:{title:'首页'}},
     { path: '/CommodityDatails',name: 'CommodityDatails', component: CommodityDatails, meta:{title:'商品详情'}},
+    { path: '/SearchCommodityDatails',name: 'SearchCommodityDatails', component: SearchCommodityDatails, meta:{title:'商品详情'}},//搜索详情
     { path: '/RushToBuy',name: 'RushToBuy', component: RushToBuy, meta:{title:'疯抢排行榜'}},
     { path: '/HalfPricePerDay',name: 'HalfPricePerDay', component: HalfPricePerDay, meta:{title:'每日半价'}},
     { path: '/Capping',name: 'Capping', component: Capping, meta:{title:'30元封顶'}},

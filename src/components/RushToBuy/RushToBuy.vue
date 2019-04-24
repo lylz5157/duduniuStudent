@@ -33,9 +33,10 @@
     mounted() {
       this.$axios.get('/top100/page?pageSize=8&pageNo=1')
         .then(res => {
-          this.RushToBuy = res.data.data
+          this.RushToBuy = res.data.data.datalist
           console.log(this.RushToBuy)
         });
+
     },
     components:{
       ReturnHome
