@@ -22,18 +22,29 @@ const router = new Router({
   routes: [
     // { path: '/',name: 'Index', component: Index, meta:{title:'首页'}},
     { path: '/CommodityDatails',name: 'CommodityDatails', component: CommodityDatails, meta:{title:'商品详情'}},
-    { path: '/SearchCommodityDatails',name: 'SearchCommodityDatails', component: SearchCommodityDatails, meta:{title:'商品详情'}},//搜索详情
+    { path: '/SearchCommodityDatails',name: 'SearchCommodityDatails', component: SearchCommodityDatails, meta:{title:'商品详情',keepAlive:false}},//搜索详情
     { path: '/RushToBuy',name: 'RushToBuy', component: RushToBuy, meta:{title:'疯抢排行榜'}},
     { path: '/HalfPricePerDay',name: 'HalfPricePerDay', component: HalfPricePerDay, meta:{title:'每日半价'}},
     { path: '/Capping',name: 'Capping', component: Capping, meta:{title:'30元封顶'}},
     { path: '/FreeShipping',name: 'FreeShipping', component: FreeShipping, meta:{title:'9.9包邮'}},
     { path: '/',name: 'List', component: List, meta:{title:'分类列表'}},
-    { path: '/Search',name: 'Search', component: Search, meta:{title:'搜索'}},
+    { path: '/Search',name: 'Search', component: Search, meta:{title:'搜索',keepAlive:true}},
     { path: '/Brand',name: 'Brand', component: Brand, meta:{title:'超级品牌'}},
     { path: '/BrandArea',name: 'BrandArea', component: BrandArea, meta:{title:'品牌专区'}},
     { path: '/More',name: 'More', component: More, meta:{title:'更多'}},
   ]
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.length === 0) {
+    from.name ? next({name: from.name, query: to.query}) : next({
+      path: '/',
+      query: to.query
+    });
+  } else {
+    next();
+  }
+});
 
 export default router
+

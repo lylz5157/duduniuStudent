@@ -3,8 +3,8 @@
     <!--    <img src="https://img.51dodoniu.com/pic_17.png" alt="" width="100%" v-if="CommodityDatails !=[]">-->
     <div>
       <swiper :options="swiperOption" class="banner">
-        <swiper-slide>
-          <img :src="CommodityDatails.pic"/>
+        <swiper-slide v-for="(v,k) in CommodityDatails.images" :key="k">
+          <img :src="v"/>
         </swiper-slide>
       </swiper>
       <div class="CommodityDatails">
@@ -92,6 +92,7 @@
   </div>
 </template>
 <script>
+  inject:['reload']
   import wx from 'weixin-js-sdk'
   export default {
     name: "SearchCommodityDatails",
@@ -99,14 +100,34 @@
       return {
         CommodityDatails: [],
         swiperOption: {
+          loop: true,
+          autoplay: true,
           pagination: {
             el: '.swiper-pagination',
           },
+
         },
         DetailMap: '',
         isCopy: true
       }
     },
+    watch:{
+      '$route'(to, from) {
+        if(to.name === 'SearchCommodityDatails'){
+          this.$axios.get('/goods/detailinfo/' + this.$route.query.id)
+            .then(res => {
+              this.CommodityDatails = res.data.data
+              console.log(this.CommodityDatails)
+            })
+          this.$axios.get('/goods/findGoodsDetailUrl/' + this.$route.query.id)
+            .then(res => {
+              this.DetailMap = res.data.data
+              console.log(res)
+            })
+        }
+      }
+
+  },
     mounted() {
       this.$axios.get('/goods/detailinfo/' + this.$route.query.id)
         .then(res => {
@@ -207,9 +228,15 @@
         this.$message.error('复制失败！');
       },
       ToIndex() {
-        this.$router.push({path:'/'})
+        if (window.history.length <= 1) {
+          this.$router.push({ path: "/" });
+          return false;
+        } else {
+          this.$router.go(-1);
+        }
       }
-    }
+    },
+
   }
 </script>
 

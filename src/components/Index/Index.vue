@@ -128,9 +128,11 @@
       checkSearch(){
         this.$router.push({path:'Search'})
       }
+
     },
 
     mounted() {
+
       this.$wxSDK._wxSDk(this)
       //轮播
       this.$axios.get('/banner/list?pageSize=3&pageNo=1')

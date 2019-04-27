@@ -1,13 +1,18 @@
 <template>
   <div id="app">
-    <router-view/>
+    <keep-alive >
+      <router-view/>
+    </keep-alive>
   </div>
 </template>
 <script>
   export default {
     name: 'App',
-    mounted () {
-    }
+    provide(){
+      return{
+        reload:this.reload
+      }
+    },
   }
 </script>
 
@@ -33,7 +38,8 @@
     vertical-align: baseline;
     cursor: pointer;
   }
-  html,body {
+
+  html, body {
     font-family: PingFangSC-Regular, sans-serif;
     font-size: 13px;
     background: #ffffff;
@@ -41,12 +47,14 @@
     margin: 0 auto;
     height: 100%;
   }
+
   .mint-loadmore-text {
     text-align: center;
     line-height: 40px;
     /*display: block;*/
     display: none;
   }
+
   a {
     text-decoration: none;
   }

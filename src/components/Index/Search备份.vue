@@ -12,46 +12,42 @@
       <el-col :span="12" v-for="(v,k) in list" :key="k" :class="activeClass ==k?'active':''"><span @click="IsActive(k)">{{v.title}}</span>
       </el-col>
     </el-row>
+    <div class="root">
+    <div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
+      <mt-loadmore :top-method="loadTop"
+                   :bottom-method="loadBottom"
+                   :bottom-all-loaded="allLoaded" ref="loadmore"
+                   :autoFill="isAutoFill"
+      >
+        <div class="SearchList">
+          <el-row v-for="(v,k) in HalfPricePerDay" :key="k">
+            <router-link :to="{name:'SearchCommodityDatails',query:{id:v.goodsID}}">
+           
+              <el-col :span="8"><img :src="v.pic" alt=""></el-col>
+              <el-col :span="16">
+                <h4 class="title">{{v.d_title}}</h4>
+                <p class="d_title">{{v.introduce}}</p>
+                <div class="isTmall">
+                  <span v-if="v.isTmall">天猫</span>
+                  <span v-if="!v.isTmall" class="isTb">淘宝</span>
+                </div>
+                <div class="price">
+                  <small>￥</small>
+                  {{v.price}}
+                </div>
+                <div class="sales_num">
+                  <span class="Postage">包邮</span>
+                  <span class="quan_price"><span>劵</span> <span>优惠{{v.quan_price}}</span></span>
+                  <span>月销{{v.sales_num}}万</span>
+                </div>
+              </el-col>
+            </router-link>
 
-    <div class="root" v-show="HalfPricePerDay.length>1">
-      <div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
-        <mt-loadmore :top-method="loadTop"
-                     :bottom-method="loadBottom"
-                     :bottom-all-loaded="allLoaded" ref="loadmore"
-                     :autoFill="isAutoFill"
-        >
-          <div class="SearchList">
-            <el-row v-for="(v,k) in HalfPricePerDay" :key="k">
-              <router-link :to="{name:'SearchCommodityDatails',query:{id:v.goodsID}}">
+          </el-row>
 
-                <el-col :span="8"><img :src="v.pic" alt=""></el-col>
-                <el-col :span="16">
-                  <h4 class="title">{{v.d_title}}</h4>
-                  <p class="d_title">{{v.introduce}}</p>
-                  <div class="isTmall">
-                    <span v-if="v.isTmall">天猫</span>
-                    <span v-if="!v.isTmall" class="isTb">淘宝</span>
-                  </div>
-                  <div class="price">
-                    <small>￥</small>
-                    {{v.price}}
-                  </div>
-                  <div class="sales_num">
-                    <span class="Postage">包邮</span>
-                    <span class="quan_price"><span>劵</span> <span>优惠{{v.quan_price}}</span></span>
-                    <span>月销{{v.sales_num}}万</span>
-                  </div>
-                </el-col>
-              </router-link>
-
-            </el-row>
-
-          </div>
-        </mt-loadmore>
-      </div>
+        </div>
+      </mt-loadmore>
     </div>
-    <div v-show="HalfPricePerDay.length<1" class="IsData">
-      没有该商品！
     </div>
   </div>
 </template>
@@ -67,7 +63,6 @@
           {title: '天猫搜索(100w+)',ico:''},
           {title: '优惠推荐(包邮10w+)'},
         ],
-
         activeClass: 0,
         HalfPricePerDay: [],
         //可以进行上拉
@@ -82,8 +77,7 @@
           {item:'男装'},
           {item:'女装'},
           {item:'零食'},
-        ],
-        includedComponents: "test-keep-alive"
+        ]
       }
     },
     created() {
@@ -109,13 +103,9 @@
       IsActive(k) {
         this.activeClass = k;
         if(k==1){
-          if(this.placeholder !='' ){
-            this.loadFrist1();
-          }
+          this.loadFrist1();
         }else {
-          if(this.placeholder !=''){
-            this.loadFrist0();
-          }
+          this.loadFrist0();
         }
       },
       //   下拉刷新
@@ -125,11 +115,12 @@
         }else {
           this.loadFrist0();
         }
+
       },
       // 上拉加载
       loadBottom() {
         if (this.activeClass == 1) {
-          this.loadMore1();
+          this.loadFrist1();
         }else {
           this.loadMore0();
         }
@@ -137,105 +128,96 @@
       // 下来刷新加载
       Search() {
         if (this.activeClass == 1) {
-          if(this.placeholder !=''){
-            this.HalfPricePerDay = []
-            this.loadMore1();
-          }else {
-            alert('请输入搜索关键字')
-          }
-
+          this.HalfPricePerDay = []
+          this.loadMore1();
         }else {
-          if(this.placeholder != ''){
-            this.HalfPricePerDay = []
-            this.loadMore0();
-          }else {
-            alert('请输入搜索关键字')
-          }
-
+          this.HalfPricePerDay = []
+          this.loadMore0();
         }
       },
 //this.activeClass==1 为优惠搜
 //this.activeClass==0 为全网搜
       loadFrist1() {
-        const Qs = require('qs');
-        this.$axios
-        this.$axios.post('/goods/page', JSON.stringify(
-          {"title": this.placeholder, "orderBycul": 0, 'pageNo': this.courrentPage, pageSize: 20},
-        ))
-          .then(res => {
-            console.log(res.data.data.datalist)
-            this.courrentPage == 1;
-            this.allLoaded = false; // 可以进行上拉
-            this.HalfPricePerDay = res.data.data.datalist;
-            this.$refs.loadmore.onTopLoaded();
-          })
-          .catch(error => {
-            console.log(error);
-            alert("网络错误，不能访问");
-          });
+          const Qs = require('qs');
+          this.$axios
+          this.$axios.post('/goods/page', JSON.stringify(
+            {"title": this.placeholder, "orderBycul": 0, 'pageNo': this.courrentPage, pageSize: 10},
+          ))
+            .then(res => {
+              console.log(res.data.data.datalist)
+              this.courrentPage == 1;
+              this.allLoaded = false; // 可以进行上拉
+              this.HalfPricePerDay = res.data.data.datalist;
+              this.$refs.loadmore.onTopLoaded();
+            })
+            .catch(error => {
+              console.log(error);
+              alert("网络错误，不能访问");
+            });
       },
 
       // 加载更多
       loadMore1() {
-        this.courrentPage++;
-        this.$axios
-        this.$axios.post('/goods/page', JSON.stringify(
-          {"title": this.placeholder, "orderBycul": 0, 'pageNo': this.courrentPage, pageSize: 20},
-        ))
-          .then(res => {
-            // concat数组的追加
-            this.HalfPricePerDay = this.HalfPricePerDay.concat(res.data.data.datalist);
-            if (this.courrentPage >= 2000 / res.data.data.pageSize) {
-              this.allLoaded = true; // 若数据已全部获取完毕
-            }
-            this.$refs.loadmore.onBottomLoaded();
-          })
-          .catch(error => {
-            console.log(error);
-            alert("网络错误，不能访问");
-          });
+          this.courrentPage++;
+          this.$axios
+          this.$axios.post('/goods/page', JSON.stringify(
+            {"title": this.placeholder, "orderBycul": 0, 'pageNo': this.courrentPage, pageSize: 10},
+          ))
+            .then(res => {
+              // concat数组的追加
+              this.HalfPricePerDay = this.HalfPricePerDay.concat(res.data.data.datalist);
+              if (this.courrentPage >= res.data.data.total / res.data.data.pageSize) {
+                this.allLoaded = true; // 若数据已全部获取完毕
+              }
+              this.$refs.loadmore.onBottomLoaded();
+            })
+            .catch(error => {
+              console.log(error);
+              alert("网络错误，不能访问");
+            });
 
       },
       loadFrist0() {
-        const Qs = require('qs');
-        this.$axios
-        this.$axios.post('/serach/superSer/', JSON.stringify(
-          {"keywords": this.placeholder, "orderBycul": 0, 'pageNo': this.courrentPage, pageSize: 20},
-        ))
-          .then(res => {
-            console.log(res.data.data.datalist)
-            this.courrentPage == 1;
-            this.allLoaded = false; // 可以进行上拉
-            this.HalfPricePerDay = res.data.data.datalist;
-            this.$refs.loadmore.onTopLoaded();
-          })
-          .catch(error => {
-            console.log(error);
-            alert("网络错误，不能访问");
-          });
+          const Qs = require('qs');
+          this.$axios
+          this.$axios.post('/serach/superSer/', JSON.stringify(
+            {"keywords": this.placeholder, "orderBycul": 0, 'pageNo': this.courrentPage, pageSize: 10},
+          ))
+            .then(res => {
+              console.log(res.data.data.datalist)
+              this.courrentPage == 1;
+              this.allLoaded = false; // 可以进行上拉
+              this.HalfPricePerDay = res.data.data.datalist;
+              this.$refs.loadmore.onTopLoaded();
+            })
+            .catch(error => {
+              console.log(error);
+              alert("网络错误，不能访问");
+            });
 
 
       },
 
       // 加载更多
       loadMore0() {
-        this.courrentPage++;
-        this.$axios
-        this.$axios.post('serach/superSer/', JSON.stringify(
-          {"keywords": this.placeholder, "orderBycul": 0, 'pageNo': this.courrentPage, pageSize: 20},
-        ))
-          .then(res => {
-            // concat数组的追加
-            this.HalfPricePerDay = this.HalfPricePerDay.concat(res.data.data.datalist);
-            if (this.courrentPage >= 2000 / res.data.data.pageSize) {
-              this.allLoaded = true; // 若数据已全部获取完毕
-            }
-            this.$refs.loadmore.onBottomLoaded();
-          })
-          .catch(error => {
-            console.log(error);
-            alert("网络错误，不能访问");
-          });
+
+          this.courrentPage++;
+          this.$axios
+          this.$axios.post('serach/superSer/', JSON.stringify(
+            {"keywords": this.placeholder, "orderBycul": 0, 'pageNo': this.courrentPage, pageSize: 10},
+          ))
+            .then(res => {
+              // concat数组的追加
+              this.HalfPricePerDay = this.HalfPricePerDay.concat(res.data.data.datalist);
+              if (this.courrentPage >= res.data.data.total / res.data.data.pageSize) {
+                this.allLoaded = true; // 若数据已全部获取完毕
+              }
+              this.$refs.loadmore.onBottomLoaded();
+            })
+            .catch(error => {
+              console.log(error);
+              alert("网络错误，不能访问");
+            });
 
 
       },
@@ -245,10 +227,6 @@
 </script>
 
 <style scoped lang="less">
-  .IsData {
-    text-align: center;
-    line-height: 40px;
-  }
   .root{
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -414,13 +392,13 @@
       line-height: 40px;
       padding: 0 12px;
     }
-    span {
+     span {
       padding: 0.05rem 0.3rem;
       background: #f4f4f4;
       border-radius: 0.3rem;
       margin: 5px;
       color: #777;
-      word-break: normal;
-    }
+       word-break: normal;
+     }
   }
 </style>

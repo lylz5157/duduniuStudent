@@ -3,13 +3,11 @@
     <!--    <img src="https://img.51dodoniu.com/pic_17.png" alt="" width="100%" v-if="CommodityDatails !=[]">-->
     <div>
       <swiper :options="swiperOption" class="banner">
-        <swiper-slide>
-          <img :src="CommodityDatails.pic"/>
+        <swiper-slide v-for="(v,k) in CommodityDatails.images" :key="k">
+          <img :src="v"/>
         </swiper-slide>
       </swiper>
       <div class="CommodityDatails">
-
-
         <h4 class="price">
           <small>￥</small>
           {{CommodityDatails.price}} <span>包邮</span></h4>
@@ -92,6 +90,7 @@
   </div>
 </template>
 <script>
+  inject:['reload']
   import wx from 'weixin-js-sdk'
 
   export default {
@@ -99,14 +98,34 @@
     data() {
       return {
         CommodityDatails: [],
+        DetailMap: '',
+        isCopy: true,
         swiperOption: {
+          loop: true,
+          autoplay: true,
           pagination: {
             el: '.swiper-pagination',
           },
+
         },
-        DetailMap: '',
-        isCopy: true
       }
+    },
+    watch:{
+      '$route'(to, from) {
+        if(to.name === 'CommodityDatails'){
+          this.$axios.get('/operate/goodsdetail/' + this.$route.query.id)
+            .then(res => {
+              this.CommodityDatails = res.data.data
+              console.log(this.CommodityDatails)
+            })
+          this.$axios.get('/goods/findGoodsDetailUrl/' + this.$route.query.id)
+            .then(res => {
+              this.DetailMap = res.data.data
+              console.log(res)
+            })
+        }
+      }
+
     },
     mounted() {
       this.$axios.get('/operate/goodsdetail/' + this.$route.query.id)
