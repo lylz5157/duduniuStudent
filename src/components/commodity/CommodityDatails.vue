@@ -179,7 +179,6 @@
               imgUrl: this.CommodityDatails.pic,
               success: function () {
                 alert("分享成功");
-                console.this.CommodityDatails.pic
               },
               cancel: function () {
                 alert('你没有分享给朋友');
